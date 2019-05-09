@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+    <definition name="defaultLayout" 	template="/WEB-INF/tiles/layout/template/defaultLayout.jsp">
+        <put-attribute name="common" 			value="/WEB-INF/tiles/layout/common.jsp"/>           <!--  header , 공통css -->
+        <put-attribute name="common_script" 	value="/WEB-INF/tiles/layout/common.script.jsp"/>    <!-- 공통 script-->
+        <put-attribute name="style" 			value="/WEB-INF/tiles/layout/jscss/defaultCss.jsp"/> <!-- 개별 style -->
+        <put-attribute name="script" 			value="/WEB-INF/tiles/layout/jscss/defaultJs.jsp"/>  <!-- 개별 script -->
+        <put-attribute name="body" 				value="/WEB-INF/tiles/layout/_blank.jsp"/>
+        <put-attribute name="footer" 			value="/WEB-INF/tiles/layout/footer.jsp"/>   
+    </definition>
+ 
+	<definition name="emptyLayout" template="/WEB-INF/tiles/layout/template/emptyLayout.jsp" extends="defaultLayout">
+	</definition>	
+	 
+    <definition name="moverTemplate" template="/WEB-INF/tiles/layout/template/moverLayout.jsp" extends="defaultLayout">
+        <put-attribute name="style" 		value="/WEB-INF/tiles/layout/jscss/moverCss.jsp"/> <!-- 개별 style -->
+        <put-attribute name="script" 		value="/WEB-INF/tiles/layout/jscss/moverJs.jsp"/>  <!-- 개별 script -->
+        <put-attribute name="navbarTop" 	value="/WEB-INF/tiles/layout/navbarTopMover.jsp"/>
+        <put-attribute name="navbarLeft"	value="/WEB-INF/tiles/layout/navbarLeftMover.jsp"/> 
+    </definition> 
+
+
+    <definition name="mover/*" extends="moverTemplate">
+        <put-attribute name="body" 			value="/WEB-INF/views/demo/mover/{1}.jsp"/>  <!--  body 제외  -->
+    </definition>  
+    
+
+</tiles-definitions>

@@ -1,0 +1,16 @@
+title:
+  board: 게시판
+ 
+button: 
+  submit: 등록
+  cancel: 취소
+  delete: 삭제
+
+label:
+  title: 제목을 입력하세요
+  contents: 내용을 입력하세요
+
+  
+WEB.TITLE : 로이테크 피엠아이에스
+
+languafe.type: 한글
