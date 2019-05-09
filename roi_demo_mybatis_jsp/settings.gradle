@@ -1,0 +1,6 @@
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+	}
+}
+rootProject.name = 'roi_demo_mybatis_jsp'

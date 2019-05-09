@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.roi.springboot.demo.mapper.UserMapper">
+    <select id="readUserList" parameterType="String" resultType="HashMap">        
+        SELECT Sys_ID, User_Login_ID, User_Nm, User_Part_nm FROM T_USER
+        <!-- WHERE  User_Login_ID = ## -->
+    </select>
+</mapper>

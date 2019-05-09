@@ -1,0 +1,29 @@
+server:
+  servlet:
+    jsp: 
+      init-parameters: 
+        development: true #jsp 바로 적용
+
+spring:
+  datasource: 
+      #initialization-mode: always
+      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver   # 운영
+      url: jdbc:sqlserver://isms.smartpmis.net:8433;databaseName=mpms_20190225 # 운영
+      username: dev
+      password: e@host_pwd1  
+  mvc:
+    static-path-pattern: /resources/**
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  
+  http: 
+    encoding: 
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    basename: message
+    encoding: UTF-8
+    
+ 

@@ -1,0 +1,15 @@
+title:
+  board: BOARD
+ 
+button: 
+  submit: SUBMIT
+  cancel: CANCEL
+  delete: DELETE
+
+label:
+  title: please input title
+  contents: please input contents
+
+WEB.TITLE : ROI Tech PMIS
+
+languafe.type: Eng
