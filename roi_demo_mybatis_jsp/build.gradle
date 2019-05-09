@@ -28,13 +28,9 @@ dependencies {
     //implementation 'org.springframework.boot:spring-boot-starter-security'  
     
     compile 'org.apache.tomcat.embed:tomcat-embed-jasper'   // jsp
-    compile 'javax.servlet:jstl:1.2'  // jsp
-    
-	compileOnly 'org.projectlombok:lombok'
+    compile 'javax.servlet:jstl:1.2'  // jsp    
 	
-	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
-	
-	annotationProcessor 'org.projectlombok:lombok'	
+	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'	
 	
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	
