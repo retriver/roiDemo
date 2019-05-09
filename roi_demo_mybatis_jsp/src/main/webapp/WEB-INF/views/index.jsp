@@ -7,7 +7,6 @@
 
 <!-- Static content -->
 <link rel="stylesheet" href="/resources/css/style.css">
-<script type="text/javascript" src="/resources/js/app.js"></script>
 
 <title><spring:message code="WEB.TITLE" text="default"/></title>
 </head>
