@@ -1,10 +1,10 @@
- <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Spring Boot ROI TEST</title>
 <link rel="stylesheet" href="/resources/css/style.css">
 <style>
@@ -37,10 +37,10 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>�̸�</th>
-                    <th>�μ�</th>
-                    <th>�α��ξ��̵�</th>
-                    <th>�ý��۰���</th>
+                    <th>이름</th>
+                    <th>부서</th>
+                    <th>로그인아이디</th>
+                    <th>시스템계정</th>
                 </tr>
             </thead>
             <tbody>
