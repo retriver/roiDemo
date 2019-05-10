@@ -24,8 +24,13 @@
 
 
     <definition name="mover/*" extends="moverTemplate">
-        <put-attribute name="body" 			value="/WEB-INF/views/demo/mover/{1}.jsp"/>  <!--  body 제외  -->
+        <put-attribute name="body" 			value="/WEB-INF/views/demo/mover/{1}.jsp"/>  
     </definition>  
     
 
+    <definition name="default/*" extends="emptyLayout">
+        <put-attribute name="body"          value="/WEB-INF/views/demo/default/{1}.jsp"/>  
+    </definition>  
+    
+    
 </tiles-definitions>
