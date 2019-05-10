@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /*
  * JPA , Exception  TEST 
+ * 
+ *  CRUD TEST : JpaSimpleTest.java  실행.
  * */
 @SpringBootApplication
 @EnableJpaAuditing // jpa
