@@ -1,0 +1,11 @@
+MAIL:
+  SMTP:
+    AUTH: true
+    PORT: 465
+    STARTTLS:
+      REQUIRED: true
+      ENABLE: true
+    SOCKETFACTORY:
+      CLASS: javax.net.ssl.SSLSocketFactory
+      FALLBACK: false
+      PORT: 465
