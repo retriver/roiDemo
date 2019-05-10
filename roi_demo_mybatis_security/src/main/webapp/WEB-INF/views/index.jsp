@@ -1,17 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- Static content -->
 <link rel="stylesheet" href="/resources/css/style.css"> 
 
-<title>╥нюлеве╘ га╥╧юс©Же╘</title>
+<title>К║°Л²╢М┘▄М│╛ М■└К═┬Л·└Л⌡▄М│╛</title>
 </head>
 <body>
-  <h1>╥нюлеве╘ га╥╧юс©Же╘</h1>
-  index.jsp :: ╥н╠вюн гь╬ъ а╒╠ы ╟║╢и..
+  <h1>К║°Л²╢М┘▄М│╛ М■└К═┬Л·└Л⌡▄М│╛</h1>
+  index.jsp :: К║°Й╥╦Л²╦ М∙╢Л∙╪ Л═▒Й╥╪ Й╟─К┼╔..
 
 </body>
 </html>
