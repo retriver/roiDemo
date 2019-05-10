@@ -1,0 +1,39 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.4.RELEASE'
+	id 'java'
+	id 'war'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.roi.springboot.demo.web'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	
+    compile 'org.apache.tomcat.embed:tomcat-embed-jasper'   // jsp
+    compile 'javax.servlet:jstl:1.2'  // jsp    
+    
+    
+    runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'    
+    
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
