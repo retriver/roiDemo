@@ -1,6 +1,6 @@
 package com.roi.springboot.demo.service;
 
- 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,72 +21,72 @@ import com.roi.springboot.demo.repository.SecurityAccountRepository;
 
 @Service
 public class SecuityAccountService implements UserDetailsService{
-	
-	
+
+
 	@Autowired
 	SecurityAccountRepository accounts;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		SecuityAccount account=accounts.findById(username);
-		
+
 		account.setAuthorities(getAuthorities(username));
-		
+
 		UserDetails userDetails=new UserDetails() {
-			
+
 			@Override
 			public boolean isEnabled() {
 				// TODO Auto-generated method stub
 				return true;
 			}
-			
+
 			@Override
 			public boolean isCredentialsNonExpired() {
 				// TODO Auto-generated method stub
 				return true;
 			}
-			
+
 			@Override
 			public boolean isAccountNonLocked() {
 				// TODO Auto-generated method stub
 				return true;
 			}
-			
+
 			@Override
 			public boolean isAccountNonExpired() {
 				// TODO Auto-generated method stub
 				return true;
 			}
-			
+
 			@Override
 			public String getUsername() {
 				// TODO Auto-generated method stub
 				return account.getId();
 			}
-			
+
 			@Override
 			public String getPassword() {
 				// TODO Auto-generated method stub
 				return account.getPassword();
 			}
-			
+
 			/*
 			@Override
 			public Collection getAuthorities() {
 				// TODO Auto-generated method stub
-				
+
 				return account.getAuthorities();
 			}
 			*/
-			
+
 			@Override
 			public Collection <? extends GrantedAuthority> getAuthorities() {
 			// TODO Auto-generated method stub
-				
+
 				return account.getAuthorities();
 			}
 		};
@@ -102,16 +102,16 @@ public class SecuityAccountService implements UserDetailsService{
 		account.setEnabled(true);
 		return accounts.save(account, role);
 	}
-	
-	public Collection<GrantedAuthority> getAuthorities(String username) 
-	{ 
+
+	public Collection<GrantedAuthority> getAuthorities(String username)
+	{
 		List<String> string_authorities = accounts.findAuthoritiesByID(username);
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(); 
-		for (String authority : string_authorities) 
-		{ 
-			authorities.add(new SimpleGrantedAuthority(authority)); 
-		} 
-		return authorities; 
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		for (String authority : string_authorities)
+		{
+			authorities.add(new SimpleGrantedAuthority(authority));
+		}
+		return authorities;
 	}
 
 }

@@ -2,8 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.roi.springboot.demo.mapper.UserMapper">
-    <select id="readUserList" parameterType="String" resultType="HashMap">        
+    <select id="readUserList" parameterType="String" resultType="HashMap">
         SELECT Sys_ID, User_Login_ID, User_Nm, User_Part_nm FROM T_USER
         <!-- WHERE  User_Login_ID = ## -->
     </select>
+    <!-- 데이터 베이스에 글 등록 -->
+    <insert id="insertBBS" parameterType="Map">
+        <if test="refer==null">
+            INSERT INTO test_bbs VALUES(NEXT VALUE FOR SEQ_TEST_BBS, #{title}, #{id}, Getdate(), #{content},NEXT VALUE FOR SEQ_TEST_BBS,0,0,#{pwd})
+        </if>
+        <if test="refer!=null">
+            INSERT INTO test_bbs VALUES(NEXT VALUE FOR SEQ_TEST_BBS, #{title}, #{id}, Getdate(), #{content},#{refer},#{step}+1,#{depth}+1,#{pwd})
+        </if>
+    </insert>
+    <!-- 전체 글 목록 가져오기 -->
+    <select id="selectList" resultType="java.util.Map">
+        select * from (SELECT t.*,row_number() over(order by refer asc, step desc) as num FROM test_bbs t)tt where tt.num BETWEEN #{end} and #{start} ORDER BY tt.refer DESC, tt.step ASC
+    </select>
+    <!-- 글 목록 하나 가져오기 -->
+    <select id="selectOne" parameterType="Int" resultType="java.util.Map">
+        SELECT * FROM test_bbs WHERE no=#{no}
+    </select>
+    <!-- step 업데이트 하기 -->
+    <update id="updateStep" parameterType="Map">
+        UPDATE test_bbs SET step = step+1 where refer=#{refer} and step>#{step}
+    </update>
+    <!-- totalRecordCount 구하기 -->
+    <select id="selectTotalRecord" resultType="int">
+        SELECT count(*) FROM test_bbs
+    </select>
+    <!-- 수정 삭제 할 글의 비밀번호 가져오기 -->
+    <select id="selectPassword" parameterType="Map" resultType="int">
+        SELECT password from test_bbs where no = #{no}
+    </select>
+    <!-- 글 업데이트 하기 -->
+    <update id="updateRecord" parameterType="Map">
+        UPDATE test_bbs SET title=#{title}, password=#{pwd}, content=#{content} WHERE no=#{no}
+    </update>
+    <!-- 글 삭제하기 -->
+    <delete id="deleteRecord" parameterType="Map">
+        DELETE test_bbs WHERE no=#{no}
+    </delete>
+    <!-- 댓글 입력하기 -->
+    <insert id="insertComment" parameterType="Map">
+        <if test="cno!=null">
+            INSERT INTO TEST_BBS_COMMENT VALUES(#{cno},#{id},#{comment},Getdate(),#{pwd},#{no})
+        </if>
+        <if test="cno==null">
+            INSERT INTO TEST_BBS_COMMENT VALUES(NEXT VALUE FOR SEQ_COMMENT,#{id},#{comment},Getdate(),#{pwd},#{no})
+        </if>
+    </insert>
+    <!-- 댓글 가져오기 -->
+    <select id="selectCommentList" parameterType="Map" resultType="Map">
+        SELECT * FROM TEST_BBS_COMMENT where no=#{no} ORDER BY cno desc
+    </select>
+    <!--댓글 비밀번호 확인하기 -->
+    <select id="confirmCommentPwd" parameterType="Map" resultType="int">
+        SELECT password FROM TEST_BBS_COMMENT WHERE cno=#{cno}
+    </select>
+    <!-- 댓글 삭제하기 -->
+    <delete id="deleteComment" parameterType="Map">
+        DELETE TEST_BBS_COMMENT WHERE cno=#{cno}
+    </delete>
+    <!-- 댓글 수정하기 -->
+    <update id="updateComment" parameterType="Map">
+        UPDATE TEST_BBS_COMMENT SET comment = #{comment} WHERE cno=#{cno}
+    </update>
 </mapper>

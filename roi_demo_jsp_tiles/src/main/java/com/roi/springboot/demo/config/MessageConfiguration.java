@@ -21,26 +21,26 @@ import java.util.ResourceBundle;
 @Configuration
 public class MessageConfiguration implements WebMvcConfigurer {
 
-    @Bean // 세션에 지역설정.
+    @Bean // �꽭�뀡�뿉 吏��뿭�꽕�젙.
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.KOREAN);
         return slr;
     }
 
-    @Bean // 지역설정을 변경하는 인터셉터. 요청시 파라미터에 lang 정보를 지정하면 언어가 변경됨.
+    @Bean // 吏��뿭�꽕�젙�쓣 蹂�寃쏀븯�뒗 �씤�꽣�뀎�꽣. �슂泥��떆 �뙆�씪誘명꽣�뿉 lang �젙蹂대�� 吏��젙�븯硫� �뼵�뼱媛� 蹂�寃쎈맖.
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
         lci.setParamName("lang");
         return lci;
     }
 
-    @Override // 인터셉터를 시스템 레지스트리에 등록
+    @Override // �씤�꽣�뀎�꽣瑜� �떆�뒪�뀥 �젅吏��뒪�듃由ъ뿉 �벑濡�
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
-    @Bean // yml 파일을 참조하는 MessageSource 선언
+    @Bean // yml �뙆�씪�쓣 李몄“�븯�뒗 MessageSource �꽑�뼵
     public MessageSource messageSource(
             @Value("${spring.messages.basename}") String basename,
             @Value("${spring.messages.encoding}") String encoding
@@ -54,7 +54,7 @@ public class MessageConfiguration implements WebMvcConfigurer {
         return ms;
     }
 
-    // locale 정보에 따라 다른 yml 파일을 읽도록 처리
+    // locale �젙蹂댁뿉 �뵲�씪 �떎瑜� yml �뙆�씪�쓣 �씫�룄濡� 泥섎━
     private static class YamlMessageSource extends ResourceBundleMessageSource {
         @Override
         protected ResourceBundle doGetBundle(String basename, Locale locale) throws MissingResourceException {
