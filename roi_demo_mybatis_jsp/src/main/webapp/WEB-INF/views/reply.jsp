@@ -48,7 +48,7 @@
                         <div class="col-md-8">
                             <textarea rows="10" name="content" id="content" class="form-control" placeholder="내용을 입력하세요">
 
-==================${record.id }이 작성한 글==================
+==================${record.id }님이 작성한 글==================
 ${record.content}
 
                             </textarea>
