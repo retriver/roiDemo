@@ -26,7 +26,6 @@ import com.roi.springboot.demo.mapper.UserMapper;
 public class DemoSQLController {
 	private static final Logger LOG = LoggerFactory.getLogger ( DemoSQLController.class );
 
-
 	@Value("${company.name}")
 	private String companyName;
 
@@ -70,13 +69,10 @@ public class DemoSQLController {
 		int nowPage = map.get("nowPage")==null?1:Integer.parseInt(map.get("nowPage").toString());
 		int start = totalRecordCount-(nowPage-1)*pageSize;
 		int end = start-pageSize+1;
-		//System.out.println("start"+start);
-		//System.out.println("end"+end);
 		map.put("start", start);
 		map.put("end", end);
 		//데이터 베이스에 저장되어 있는 글 목록 전체 가져오기
 		model.addAttribute("bbsList", userMapper.selectList(map));
-		//System.out.println("현재 페이지 :"+nowPage);
 		String pagingString = Paging.pagingMethod(totalRecordCount, pageSize, blockPage, nowPage, "/BBSList?");
 		model.addAttribute("totalRecordCount", totalRecordCount);
 		model.addAttribute("nowPage", nowPage);
@@ -101,7 +97,6 @@ public class DemoSQLController {
 	public String toView(@RequestParam Map map, Model model) {
 		Map record = userMapper.selectOne(Integer.parseInt(map.get("no").toString()));
 		record.put("content", record.get("content").toString().replaceAll("\r\n", "</br>"));
-		//System.out.println(record);
 		//글 하나 영역에 저장
 		model.addAttribute("record", record);
 		return "view";
@@ -123,7 +118,6 @@ public class DemoSQLController {
 	//수정 버튼 눌렀을 때
 	@RequestMapping("/toEdit")
 	public String toEdit(@RequestParam Map map,Model model) {
-		//System.out.println(map);
 		int dpwd = userMapper.selectPassword(map);
 		int pwd = Integer.parseInt(map.get("pwd").toString());
 		if(dpwd!=pwd) {
@@ -141,7 +135,6 @@ public class DemoSQLController {
 	//수정 완료 작업
 	@RequestMapping("/edit")
 	public String edit(@RequestParam Map map, Model model) {
-		//System.out.println(map);
 		int update = userMapper.updateRecord(map);
 		if(update==1) {
 			model.addAttribute("WHERE", "EDT");
@@ -157,10 +150,8 @@ public class DemoSQLController {
 	//삭제작업
 	@RequestMapping("/delete")
 	public String delete(@RequestParam Map map, Model model) {
-		
 		int dpwd = userMapper.selectPassword(map);
 		int pwd = Integer.parseInt(map.get("pwd").toString());
-
 		if(dpwd!=pwd) {
 			model.addAttribute("WHERE", "DEL");
 			model.addAttribute("SUCFAIL", 2);
@@ -172,7 +163,6 @@ public class DemoSQLController {
 				model.addAttribute("WHERE", "DEL");
 				model.addAttribute("SUCFAIL", 1);
 				model.addAttribute("nowPage", map.get("nowPage"));
-				System.out.println("!111111");
 				return "message";
 			}
 			else {

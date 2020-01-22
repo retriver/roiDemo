@@ -22,15 +22,11 @@ public class RestController {
 	@ResponseBody
 	@RequestMapping("/comment")
 	public List<Map> comment(@RequestParam Map map) {
-		//System.out.println(map);
-		//System.out.println(map.get("cno"));
 		if(map.get("cno").toString().length()!=0) {
-			//System.out.println("1231");
 			userMapper.deleteComment(map);
 			int comment = userMapper.insertComment(map);
 			if(comment==1) {
 				List<Map> commentList = userMapper.selectCommentList(map);
-				//System.out.println(((List)commentList).toString());
 				return commentList;
 			}
 			List<Map> commentList = userMapper.selectCommentList(map);
@@ -40,7 +36,6 @@ public class RestController {
 			int comment = userMapper.insertComment(map);
 			if(comment==1) {
 				List<Map> commentList = userMapper.selectCommentList(map);
-				//System.out.println(((List)commentList).toString());
 				return commentList;
 			}
 			List<Map> commentList = userMapper.selectCommentList(map);
@@ -57,15 +52,12 @@ public class RestController {
 	@ResponseBody
 	@RequestMapping("/commentDelete")
 	public List<Map> commentDelete(@RequestParam Map map){
-		//System.out.println(map);
 		int pwd = userMapper.confirmCommentPwd(map);
 		if(pwd==Integer.parseInt(map.get("pwd").toString())) {
 			int delete = userMapper.deleteComment(map);
 			if(delete ==1 ) return userMapper.selectCommentList(map);
-			//System.out.println("?????");
 		}
 		else {
-			//System.out.println("!!!!!");
 			return new Vector<Map>();
 		}
 		return userMapper.selectCommentList(map);
@@ -77,8 +69,6 @@ public class RestController {
 		//System.out.println(map);
 		int pwd = userMapper.confirmCommentPwd(map);
 		if(pwd==Integer.parseInt(map.get("pwd").toString())) {
-			//int update = userMapper.updateComment(map);
-			//System.out.println("?????");
 			List<Map> edt = new Vector<Map>();
 			Map edtMap = new HashMap();
 			edtMap.put("edt", "ok");
@@ -86,7 +76,6 @@ public class RestController {
 			return edt;
 		}
 		else {
-			//System.out.println("!!!!!");
 			return new Vector<Map>();
 		}
 	}

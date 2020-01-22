@@ -41,6 +41,57 @@ $(function(){
              console.log("에러",error);
          }
      });
+	 var isId = false;
+     var isPwd = false;
+     var isContent = false;
+     $('#cid').on('propertychange change keyup paste input',function(){
+         var currVal = $(this).val();
+         if(currVal.length==0){
+             isId = false;
+         }
+         else{
+             isId = true;
+         }
+         if(isId && isPwd && isContent){
+             $('#submit').prop('disabled',false);
+         }
+         else{
+             $('#submit').attr('disabled',true);
+         }
+     });
+     $('#cpwd').on('propertychange change keyup paste input',function(){
+         var currVal = $(this).val();
+         if(currVal.length==0){
+             isPwd = false;
+         }
+         else if(!$.isNumeric(currVal)){
+             isPwd = false;
+         }
+         else{
+             isPwd = true;
+         }
+         if(isId && isPwd && isContent){
+             $('#submit').prop('disabled',false);
+         }
+         else{
+             $('#submit').attr('disabled',true);
+         }
+     });
+     $('#comment').on('propertychange change keyup paste input',function(){
+         var currVal = $(this).val();
+         if(currVal.length==0){
+             isContent = false;
+         }
+         else{
+             isContent = true;
+         }
+         if(isContent && isId && isPwd){
+             $('#submit').prop('disabled',false);
+         }
+         else if(!isContent){
+             $('#submit').attr('disabled',true);
+         }
+     });
 });
 </script>
 <body>
@@ -93,20 +144,17 @@ $(function(){
         </div><!-- row -->
         <div class="row" style="margin-top: 30px">
             <div class="col-md-offset-2 col-md-8">
-
-
-
                     <p><h3><댓글></h3></p>
                     <form class="form-horizontal commentForm" method="post" action="<c:url value='/comment'/>">
                         <input type="hidden" value="" name="cno" id="cno222"/>
                         <input type="hidden" value="${record.no }" name="no"/>
                         <div class="col-md-12">
                             <input class="col-md-5" type="text" id="cid" name="id" placeholder="이름을 입력하세요" style="height: 35px"/>
-                            <input class="col-md-5" type="password" id="cpwd" name="pwd" placeholder="비밀번호를 입력하세요" style="height: 35px; margin-left: 2px"/>
+                            <input class="col-md-5" type="password" id="cpwd" name="pwd" placeholder="비밀번호를 입력하세요(숫자만)" style="height: 35px; margin-left: 2px"/>
                         </div>
                         <div class="col-md-12" style="margin-top:15px">
                             <input class="col-md-10" type="text" id="comment" name="comment" placeholder="댓글을 입력하세요" style="height: 35px; width: 602px"/>
-                            <input type="button" value="입력" class="btn btn-primary col-md-1 comment" style="margin-left: 15px"/>
+                            <input type="button" value="입력" class="btn btn-primary col-md-1 comment" id="submit" style="margin-left: 15px" disabled="disabled"/>
                         </div>
                      </form>
                      <div id="appendComment" style="margin-top: 110px">

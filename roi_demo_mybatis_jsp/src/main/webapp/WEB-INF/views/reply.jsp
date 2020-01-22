@@ -4,11 +4,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Reply</title>
 </head>
+<script>
+$(function(){
+    var isTitle = false;
+    var isId = false;
+    var isPwd = false;
+    var isContent = false;
+    var oldVal = $('#content').val();
+    $('#title').on('propertychange change keyup paste input',function(){
+        var currVal = $(this).val();
+        if(currVal.length==0){
+            isTitle = false;
+        }
+        else{
+               isTitle = true;
+        }
+        if(isTitle && isId && isPwd && isContent){
+            $('#submit').prop('disabled',false);
+        }
+        else{
+            $('#submit').attr('disabled',true);
+        }
+    });
+    $('#id').on('propertychange change keyup paste input',function(){
+        var currVal = $(this).val();
+        if(currVal.length==0){
+            isId = false;
+        }
+        else{
+            isId = true;
+        }
+        if(isTitle && isId && isPwd && isContent){
+            $('#submit').prop('disabled',false);
+        }
+        else{
+            $('#submit').attr('disabled',true);
+        }
+    });
+    $('#pwd').on('propertychange change keyup paste input',function(){
+        var currVal = $(this).val();
+        if(currVal.length==0){
+            isPwd = false;
+        }
+        else if(!$.isNumeric(currVal)){
+            isPwd = false;
+        }
+        else{
+            isPwd = true;
+        }
+        if(isTitle && isId && isPwd && isContent){
+            $('#submit').prop('disabled',false);
+        }
+        else{
+            $('#submit').attr('disabled',true);
+        }
+    });
+    $('#content').on('propertychange change keyup paste input',function(){
+        var currVal = $(this).val();
+        if(currVal.length==0 || currVal==oldVal){
+            isContent = false;
+        }
+        else{
+            isContent = true;
+        }
+        if(isContent && isTitle && isId && isPwd){
+            $('#submit').prop('disabled',false);
+        }
+        else if(!isContent){
+            $('#submit').attr('disabled',true);
+        }
+    });
+
+});
+</script>
 <body>
 <div class="container">
         <!-- 점보트론(Jumbotron) -->
@@ -39,7 +117,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">비밀번호</label>
                         <div class="col-md-8">
-                            <input type="password" class="form-control" name="pwd" id="pwd" placeholder="비밀번호를 입력하세요"/>
+                            <input type="password" class="form-control" name="pwd" id="pwd" placeholder="비밀번호를 입력하세요(숫자만)"/>
                         </div>
                     </div>
 
@@ -56,7 +134,7 @@ ${record.content}
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <button type="submit" class="btn btn-info">등록</button>
+                            <button type="submit" id="submit" class="btn btn-info" disabled="disabled">등록</button>
                         </div>
 
                     </div>
