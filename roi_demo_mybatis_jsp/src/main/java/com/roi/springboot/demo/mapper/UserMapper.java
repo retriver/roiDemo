@@ -37,6 +37,4 @@ public interface UserMapper {
 	public int confirmCommentPwd(Map map);
 	//댓글 수정하기
 	public int updateComment(Map map);
-
-
 }

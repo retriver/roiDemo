@@ -18,30 +18,8 @@ public class RestController {
 	@Autowired
 	UserMapper userMapper;
 
-	//댓글 입력
-	@ResponseBody
-	@RequestMapping("/comment")
-	public List<Map> comment(@RequestParam Map map) {
-		if(map.get("cno").toString().length()!=0) {
-			userMapper.deleteComment(map);
-			int comment = userMapper.insertComment(map);
-			if(comment==1) {
-				List<Map> commentList = userMapper.selectCommentList(map);
-				return commentList;
-			}
-			List<Map> commentList = userMapper.selectCommentList(map);
-			return commentList;
-		}else {
-			map.put("cno", null);
-			int comment = userMapper.insertComment(map);
-			if(comment==1) {
-				List<Map> commentList = userMapper.selectCommentList(map);
-				return commentList;
-			}
-			List<Map> commentList = userMapper.selectCommentList(map);
-			return commentList;
-		}
-	}
+
+
 	//처음 코멘트 가져오기
 	@ResponseBody
 	@RequestMapping("/firstComment")
@@ -52,7 +30,9 @@ public class RestController {
 	@ResponseBody
 	@RequestMapping("/commentDelete")
 	public List<Map> commentDelete(@RequestParam Map map){
+		boolean output = true;
 		int pwd = userMapper.confirmCommentPwd(map);
+
 		if(pwd==Integer.parseInt(map.get("pwd").toString())) {
 			int delete = userMapper.deleteComment(map);
 			if(delete ==1 ) return userMapper.selectCommentList(map);

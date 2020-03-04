@@ -17,6 +17,8 @@
   <p/>   http://localhost:8080/index?lang=ko
   <p/>   http://localhost:8080/userList?lang=en
   <p/>   http://localhost:8080/userList?lang=ko
-  <a href="<c:url value='/BBSList'/>">답변형 게시판</a>
+  <p/><a href="<c:url value='/BBSList'/>">답변형 게시판</a>
+
+  <p/><a href="<c:url value='/jnsBBSList'/>">답변형 게시판(보완)</a>
 </body>
 </html>

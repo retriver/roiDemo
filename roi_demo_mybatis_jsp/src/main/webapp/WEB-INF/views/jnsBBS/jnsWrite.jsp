@@ -1,90 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Write</title>
-</head>
 <script>
 $(function(){
-	var isTitle = false;
-	var isId = false;
-	var isPwd = false;
-	var isContent = false;
-	//copy paste 방지
+	var pTitle = $('#title').val();
+	var pId = $('#id').val();
+	var pPwd = $('#pwd').val();
+	var pContent = $('#content').val();
+	var currTitle = '';
+	var currId = '';
+	var currPwd = '';
+	var currContent = '';
+	//실시간 값 변경 감지, 값 복사 붙여넣기 감지, F12 개발자 모드에서 값 변경 감지
 	$('#title').on('propertychange change keyup paste input',function(){
-	    var currVal = $(this).val();
-	    if(currVal.length==0){
-	    	isTitle = false;
-	    }
-	    else{
-	    	   isTitle = true;
-	    }
-	    if(isTitle && isId && isPwd && isContent){
-            $('#submit').prop('disabled',false);
-        }
-	    else{
-	    	$('#submit').attr('disabled',true);
-	    }
+		console.log("1111111");
+		currTitle = $(this).val();
+		isValidate(currTitle,currId,currPwd,currContent);
 	});
 	$('#id').on('propertychange change keyup paste input',function(){
-        var currVal = $(this).val();
-        if(currVal.length==0){
-        	isId = false;
-        }
-        else{
-            isId = true;
-        }
-        if(isTitle && isId && isPwd && isContent){
-            $('#submit').prop('disabled',false);
-        }
-        else{
-            $('#submit').attr('disabled',true);
-        }
+		currId = $(this).val();
+		isValidate(currTitle,currId,currPwd,currContent);
     });
 	$('#pwd').on('propertychange change keyup paste input',function(){
-        var currVal = $(this).val();
-        if(currVal.length==0){
-        	isPwd = false;
-        }
-        else if(!$.isNumeric(currVal)){
-        	isPwd = false;
-        }
-        else{
-        	isPwd = true;
-        }
-        if(isTitle && isId && isPwd && isContent){
-            $('#submit').prop('disabled',false);
-        }
-        else{
-            $('#submit').attr('disabled',true);
-        }
+		currPwd = $(this).val();
+		isValidate(currTitle,currId,currPwd,currContent);
     });
 	$('#content').on('propertychange change keyup paste input',function(){
-        var currVal = $(this).val();
-        if(currVal.length==0){
-        	isContent = false;
-        }
-        else{
-            isContent = true;
-        }
-        if(isContent && isTitle && isId && isPwd){
-            $('#submit').prop('disabled',false);
-        }
-        else if(!isContent){
-            $('#submit').attr('disabled',true);
-        }
+		currContent = $(this).val();
+		isValidate(currTitle,currId,currPwd,currContent);
     });
-
+	function isValidate(currTitle,currId,currPwd,currContent){
+		if(currTitle != pTitle && currId != pId && currPwd != pPwd && currContent != pContent) $('#submit').attr('disabled',false);
+		else $('#submit').attr('disabled',true);
+	}
 });
 </script>
 <body>
@@ -95,7 +43,7 @@ $(function(){
         </div>
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" method="post" action="<c:url value='/insertBBS'/>">
+                <form class="form-horizontal" method="post" action="<c:url value='/jnsInsertBBS'/>">
                     <div class="form-group">
                         <label class="col-md-2 control-label">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목</label>
                         <div class="col-md-8">
@@ -129,5 +77,3 @@ $(function(){
             </div>
         </div><!-- row -->
     </div><!-- container -->
-</body>
-</html>

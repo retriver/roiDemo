@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+    <definition name="defaultLayout" 	template="/WEB-INF/tiles/layout/template/defaultLayout.jsp">
+        <put-attribute name="common" 			value="/WEB-INF/tiles/layout/common.jsp"/>           <!--  header , 공통css -->
+        <put-attribute name="body" 				value="/WEB-INF/tiles/layout/_blank.jsp"/>
+        <put-attribute name="footer" 			value="/WEB-INF/tiles/layout/footer.jsp"/>
+    </definition>
+
+
+
+
+    <definition name="jnsBBS/*" extends="defaultLayout">
+        <put-attribute name="body" 			value="/WEB-INF/views/jnsBBS/{1}.jsp"/>
+    </definition>
+
+
+
+
+
+</tiles-definitions>

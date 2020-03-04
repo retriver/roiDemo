@@ -8,12 +8,21 @@
     </select>
     <!-- 데이터 베이스에 글 등록 -->
     <insert id="insertBBS" parameterType="Map">
-        <if test="refer==null">
+        <!-- mybatis if문을 choose문으로 변경 -->
+        <choose>
+            <when test="refer==null">
+                INSERT INTO test_bbs VALUES(NEXT VALUE FOR SEQ_TEST_BBS, #{title}, #{id}, Getdate(), #{content},NEXT VALUE FOR SEQ_TEST_BBS,0,0,#{pwd})
+            </when>
+            <otherwise>
+                INSERT INTO test_bbs VALUES(NEXT VALUE FOR SEQ_TEST_BBS, #{title}, #{id}, Getdate(), #{content},#{refer},#{step}+1,#{depth}+1,#{pwd})
+            </otherwise>
+        </choose>
+        <!-- <if test="refer==null">
             INSERT INTO test_bbs VALUES(NEXT VALUE FOR SEQ_TEST_BBS, #{title}, #{id}, Getdate(), #{content},NEXT VALUE FOR SEQ_TEST_BBS,0,0,#{pwd})
         </if>
         <if test="refer!=null">
             INSERT INTO test_bbs VALUES(NEXT VALUE FOR SEQ_TEST_BBS, #{title}, #{id}, Getdate(), #{content},#{refer},#{step}+1,#{depth}+1,#{pwd})
-        </if>
+        </if> -->
     </insert>
     <!-- 전체 글 목록 가져오기 -->
     <select id="selectList" resultType="java.util.Map">
@@ -45,12 +54,7 @@
     </delete>
     <!-- 댓글 입력하기 -->
     <insert id="insertComment" parameterType="Map">
-        <if test="cno!=null">
-            INSERT INTO TEST_BBS_COMMENT VALUES(#{cno},#{id},#{comment},Getdate(),#{pwd},#{no})
-        </if>
-        <if test="cno==null">
-            INSERT INTO TEST_BBS_COMMENT VALUES(NEXT VALUE FOR SEQ_COMMENT,#{id},#{comment},Getdate(),#{pwd},#{no})
-        </if>
+        INSERT INTO TEST_BBS_COMMENT VALUES(NEXT VALUE FOR SEQ_COMMENT,#{id},#{comment},Getdate(),#{pwd},#{no})
     </insert>
     <!-- 댓글 가져오기 -->
     <select id="selectCommentList" parameterType="Map" resultType="Map">
@@ -66,6 +70,6 @@
     </delete>
     <!-- 댓글 수정하기 -->
     <update id="updateComment" parameterType="Map">
-        UPDATE TEST_BBS_COMMENT SET comment = #{comment} WHERE cno=#{cno}
+        UPDATE TEST_BBS_COMMENT SET comment = #{comment}, id=#{id} WHERE cno=#{cno}
     </update>
 </mapper>

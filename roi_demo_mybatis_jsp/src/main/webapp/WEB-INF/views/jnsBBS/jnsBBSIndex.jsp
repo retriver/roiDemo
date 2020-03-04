@@ -1,16 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html>
-<html>
-<head>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>List</title>
-</head>
+${notInsert }
 <body>
     <div class="container">
         <!-- 점보트론(Jumbotron) -->
@@ -20,7 +11,7 @@
         <!-- 작성하기 버튼 -->
         <div class="row" style="margin-bottom:10px">
             <div class="col-md-12 text-right">
-                <a href="<c:url value='/insertBBS'/>" class="btn btn-success">등록</a>
+                <a href="<c:url value='/jnsInsertBBS'/>" class="btn btn-success">등록</a>
             </div>
         </div>
 
@@ -51,7 +42,7 @@
                                         └☞
                                     </c:if>
                                 </c:forEach>
-                                <a href="<c:url value='/view?no=${item.no}&nowPage='/><c:out value='${param.nowPage}' default='1'/>">${item.title }</a>
+                                <a href="<c:url value='/jnsView?no=${item.no}&nowPage='/><c:out value='${param.nowPage}' default='1'/>">${item.title }</a>
                                 </td>
                                 <td>${item.id }</td>
                                 <td>${item.postdate}</td>
@@ -69,9 +60,3 @@
             </div>
         </div>
     </div><!-- container -->
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-</body>
-</html>

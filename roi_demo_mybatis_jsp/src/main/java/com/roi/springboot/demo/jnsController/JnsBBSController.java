@@ -1,6 +1,5 @@
-package com.roi.springboot.demo.controller;
+package com.roi.springboot.demo.jnsController;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -13,18 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.roi.springboot.demo.common.Paging;
 import com.roi.springboot.demo.mapper.UserMapper;
 
-
-
-
-
 @Controller
-public class DemoSQLController {
-	private static final Logger LOG = LoggerFactory.getLogger ( DemoSQLController.class );
+public class JnsBBSController {
+	private static final Logger LOG = LoggerFactory.getLogger ( JnsBBSController.class );
 
 	@Value("${company.name}")
 	private String companyName;
@@ -35,32 +29,11 @@ public class DemoSQLController {
 	@Value("${company.number}")
 	private String companyNumber;
 
-	@RequestMapping("/index")
-	public String index() {
-		return "index";
-	}
-
 	@Autowired
 	UserMapper userMapper;
 
-	@SuppressWarnings("rawtypes")
-	@RequestMapping("/listJson")
-	@ResponseBody
-	public String userList( ) {
-		List<Map<String, Object>> ret = userMapper.readUserList();
-		return ((List) ret).toString();
-	}
-
-	@RequestMapping("/userList")
-	public String userList(Model model) {
-		model.addAttribute("userList", userMapper.readUserList());
-		model.addAttribute("companyName", companyName);
-		model.addAttribute("companyEmail", companyEmail);
-		model.addAttribute("companyNumber", companyNumber);
-		return "user_list";
-	}
 	//답변형 게시판 페이지로 이동
-	@RequestMapping("/BBSList")
+	@RequestMapping("/jnsBBSList")
 	public String bbsList(Model model, @RequestParam Map map) {
 		//전체 글 개수 가져오기
 		int totalRecordCount = userMapper.selectTotalRecord();
@@ -73,67 +46,77 @@ public class DemoSQLController {
 		map.put("end", end);
 		//데이터 베이스에 저장되어 있는 글 목록 전체 가져오기
 		model.addAttribute("bbsList", userMapper.selectList(map));
-		String pagingString = Paging.pagingMethod(totalRecordCount, pageSize, blockPage, nowPage, "/BBSList?");
+		String pagingString = Paging.pagingMethod(totalRecordCount, pageSize, blockPage, nowPage, "/jnsBBSList?");
 		model.addAttribute("totalRecordCount", totalRecordCount);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pagingString", pagingString);
-		return "BBSIndex";
-	}
+		return "jnsBBS/jnsBBSIndex";
+	}////////bbsList
+
 	//작성 폼으로 이동
-	@RequestMapping(value="/insertBBS", method = RequestMethod.GET)
+	@RequestMapping(value="/jnsInsertBBS", method = RequestMethod.GET)
 	public String toInsertBBS(Model model) {
-		return "write";
-	}
+		return "jnsBBS/jnsWrite";
+	}///////toInsertBBS
+
 	//글 쓰기 로직
-	@RequestMapping(value="/insertBBS", method = RequestMethod.POST)
+	@RequestMapping(value="/jnsInsertBBS", method = RequestMethod.POST)
 	public String insertBBS(Model model,@RequestParam Map map) {
 		//데이터 베이스에 insert
 		int affected = userMapper.insertBBS(map);
-		return "forward:/BBSList";
-	}
+		if(affected!=1) {
+			model.addAttribute("notInsert", "<script>alert('글 등록이 되지 않았습니다.');</script>");
+		}
+		return "forward:/jnsBBSList";
+	}/////////insertBBS
+
 	//글 제목 선택해서 상세보기로 이동
-	@RequestMapping("/view")
+	@RequestMapping("/jnsView")
 	public String toView(@RequestParam Map map, Model model) {
 		Map record = userMapper.selectOne(Integer.parseInt(map.get("no").toString()));
 		record.put("content", record.get("content").toString().replaceAll("\r\n", "</br>"));
 		//글 하나 영역에 저장
 		model.addAttribute("record", record);
-		return "view";
-	}
+		return "jnsBBS/jnsView";
+	}//////////toView
+
 	//답변 폼으로 이동
-	@RequestMapping("/toReply")
+	@RequestMapping("/jnsToReply")
 	public String toReply(@RequestParam Map map, Model model) {
 		model.addAttribute("no", map.get("no"));
 		model.addAttribute("record", userMapper.selectOne(Integer.parseInt(map.get("no").toString())));
-		return "reply";
-	}
+		return "jnsBBS/jnsReply";
+	}//////////toReply
+
 	//선택한 글에 답변하기
-	@RequestMapping("/reply")
+	@RequestMapping("/jnsReply")
 	public String reply(@RequestParam Map map) {
 		userMapper.updateStep(map);
 		userMapper.insertBBS(map);
-		return "forward:/BBSList";
-	}
+		return "forward:jnsBBSList";
+	}/////////reply
+
 	//수정 버튼 눌렀을 때
-	@RequestMapping("/toEdit")
+	@RequestMapping("/jnsToEdit")
 	public String toEdit(@RequestParam Map map,Model model) {
 		int dpwd = userMapper.selectPassword(map);
 		int pwd = Integer.parseInt(map.get("pwd").toString());
 		if(dpwd!=pwd) {
 			model.addAttribute("WHERE", "EDT");
 			model.addAttribute("SUCFAIL", 2);
-			return "message";
+			return "jnsBBS/jnsMessage";
 		}
 		else {
 			int no = Integer.parseInt(map.get("no").toString());
 			model.addAttribute("record", userMapper.selectOne(no));
 			model.addAttribute("nowPage", map.get("nowPage"));
-			return "edit";
+			return "jnsBBS/jnsEdit";
 		}
-	}
+	}////////toEdit
+
 	//수정 완료 작업
-	@RequestMapping("/edit")
+	@RequestMapping("/jnsEdit")
 	public String edit(@RequestParam Map map, Model model) {
 		int update = userMapper.updateRecord(map);
 		if(update==1) {
@@ -145,17 +128,18 @@ public class DemoSQLController {
 			model.addAttribute("WHERE", "EDT");
 			model.addAttribute("SUCFAIL", 0);
 		}
-		return "message";
-	}
+		return "jnsBBS/jnsMessage";
+	}////////edit
+
 	//삭제작업
-	@RequestMapping("/delete")
+	@RequestMapping("/jnsDelete")
 	public String delete(@RequestParam Map map, Model model) {
 		int dpwd = userMapper.selectPassword(map);
 		int pwd = Integer.parseInt(map.get("pwd").toString());
 		if(dpwd!=pwd) {
 			model.addAttribute("WHERE", "DEL");
 			model.addAttribute("SUCFAIL", 2);
-			return "message";
+			return "jnsBBS/jnsMessage";
 		}
 		else {
 			int delete = userMapper.deleteRecord(map);
@@ -163,39 +147,13 @@ public class DemoSQLController {
 				model.addAttribute("WHERE", "DEL");
 				model.addAttribute("SUCFAIL", 1);
 				model.addAttribute("nowPage", map.get("nowPage"));
-				return "message";
+				return "jnsBBS/jnsMessage";
 			}
 			else {
 				model.addAttribute("WHERE", "DEL");
 				model.addAttribute("SUCFAIL", 0);
-				return "message";
+				return "jnsBBS/jnsMessage";
 			}
 		}
-	}
-
-	//댓글 입력
-	@ResponseBody
-	@RequestMapping("/comment")
-	public List<Map> comment(@RequestParam Map map) {
-		if(map.get("cno").toString().length()!=0) {
-			userMapper.deleteComment(map);
-			int comment = userMapper.insertComment(map);
-			if(comment==1) {
-				List<Map> commentList = userMapper.selectCommentList(map);
-				return commentList;
-			}
-			List<Map> commentList = userMapper.selectCommentList(map);
-			return commentList;
-		}else {
-			map.put("cno", null);
-			int comment = userMapper.insertComment(map);
-			if(comment==1) {
-				List<Map> commentList = userMapper.selectCommentList(map);
-				return commentList;
-			}
-			List<Map> commentList = userMapper.selectCommentList(map);
-			return commentList;
-		}
-	}
-
+	}//////////delete
 }
