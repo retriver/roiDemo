@@ -32,10 +32,18 @@ public class RestController {
 	public List<Map> commentDelete(@RequestParam Map map){
 		boolean output = true;
 		int pwd = userMapper.confirmCommentPwd(map);
-
+		System.out.println("111111111111111");
 		if(pwd==Integer.parseInt(map.get("pwd").toString())) {
 			int delete = userMapper.deleteComment(map);
-			if(delete ==1 ) return userMapper.selectCommentList(map);
+			if(delete ==1 ) {
+				List<Map> returnList = userMapper.selectCommentList(map);
+				if(returnList.size()==0) {
+					HashMap addMap = new HashMap();
+					addMap.put("comment0", "0");
+					returnList.add(addMap);
+				}
+				return returnList;
+			}
 		}
 		else {
 			return new Vector<Map>();
@@ -49,10 +57,12 @@ public class RestController {
 		//System.out.println(map);
 		int pwd = userMapper.confirmCommentPwd(map);
 		if(pwd==Integer.parseInt(map.get("pwd").toString())) {
+			System.out.println("????????????????????????");
 			List<Map> edt = new Vector<Map>();
 			Map edtMap = new HashMap();
 			edtMap.put("edt", "ok");
 			edt.add(edtMap);
+			System.out.println("size::: :: : "+edt.size());
 			return edt;
 		}
 		else {

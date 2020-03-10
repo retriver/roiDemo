@@ -283,6 +283,9 @@ $(function(){
 		                    });
 		                    //console.log('commentStr',commentStr);
 		                    $('#appendComment').html(commentStr);
+		                    if(data.indexOf('comment0')!=-1){
+                                $('#appendComment').html('');
+                            }
                         }
                         else{
                             console.log('index',index);
